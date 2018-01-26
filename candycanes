@@ -5,9 +5,9 @@
     <meta charset="utf-8"  />
   </head>
   <body>
-    <h1>
-      I really enjoy baking.
-    </h1>
+    <svg>
+      <rect width="1281" height="513" fill="#FEFEFB" />
+      <rect width="1260" height="498" fill="#E8E1B7" />
   </body>
 </html>
 =======
