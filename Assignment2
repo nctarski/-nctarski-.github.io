@@ -1,1 +1,35 @@
-Placeholder
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>
+    baking
+  </title>
+  <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+</head>
+
+<body  bgcolor="lightgrey">
+  <h1> I really enjoy baking.
+  </h1>
+
+    <p class="tahoma"> Let me tell you some more how much I love baking.
+    </p>
+<br>
+<h2 class="Amatic SC;"> Sometimes I wake up in the middle of the night, just so I can spend
+time in my kitchen doing some baking. </h2>
+<p> I bake all sorts of things, but pies are my favorite. </p>
+<p id="pieparagraph">
+Blueberry pies, buttermilk pies, pecan pies. </p>
+<lightgrey>
+<p>
+BUT! Cherry pies are my absolute favorite!
+<p>
+</lightgrey>
+
+<script>
+document.getElementById("pieparagraph").innerHTML = "Strawberry rhubarb pies, lemon pies, chocolate pies!";
+</script>
+
+</body>
