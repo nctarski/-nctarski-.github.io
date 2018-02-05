@@ -30,57 +30,28 @@ BUT! Cherry pies are my absolute favorite!
 
 <script>
 
-  var myNumber = 42;
+<button id="changeList" type="button">
+  And More!
+</button>
 
-  console.log(myNumber);
+var Blueberry Pies;
+var Buttermilk Pies;
+var Pecan Pies;
 
-  myNumber = myNumber + 10;
+document.getElementById("changeList").onclick = newList;
 
-  console.log(myNumber);
+function newList() {
+  item1 = prompt("Chocolate Pies: ");
+  item2 = prompt("Strawberry Rhubarb Pies: ");
+  item3 = prompt("Lemon Pies: ");
+  updateList();
+}
 
-  var myString = "Javascript is cool!";
-
-  console.log("D3 and " +myString)
-
-  var bigNumber = myNumber > 20;
-
-  console.log(bigNumber);
-
-  var myArray = ["one", "two", "myNumber", "Natalie"];
-
-  console.log(myArray);
-
-  var myUser = {
-    "name": "Natalie Tarski",
-    "color": "red",
-    "last-login": "1/29/2018"
-  };
-
-  console.log(myUser["last-login"]);
-
-  var myKey = "name";
-
-  console.log(myUser);
-
-  var sayHello = function(name) {
-    console.log("Hi " + name + "!");
-
-  }
-
-  sayHello("Natalie Tarski");
-  sayHello("Melissa");
-  console.log(myNumber);
-
-  var plusTen = function(num) {
-    var x = num +10;
-    return x;
-  }
-
-  var thirty = plusTen(20);
-  console.log(thirty);
-
-  if (myNumber >)
-
+function updateList() {
+  document.getElementById("Chocolate Pies").innerHTML = Blueberry Pies;
+  document.getElementById("Strawberry Rhubarb Pies").innerHTML = Buttermilk Pies;
+  document.getElementById("Lemon Pies").innerHTML = Pecan Pies;
+}
 </script>
 
 </body>
