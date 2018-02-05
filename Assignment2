@@ -29,7 +29,9 @@ BUT! Cherry pies are my absolute favorite!
 </lightgrey>
 
 <script>
+
 document.getElementById("pieparagraph").innerHTML = "Strawberry rhubarb pies, lemon pies, chocolate pies!";
+
 </script>
 
 </body>
