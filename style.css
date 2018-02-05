@@ -1,0 +1,13 @@
+p {
+  color:blue;
+  font-size: 32px;
+  }
+
+  #redparagraph {
+    color: red;
+    font-size: 14px;
+  }
+
+  .tahoma {
+    font-family: "Amatic SC, cursive;"
+  }
