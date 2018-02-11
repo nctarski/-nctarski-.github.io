@@ -14,3 +14,50 @@
     </svg>
 
     <script src="https://d3js.org/d3.v4.min.js"></script>
+
+    var myData = [6, 25, 38, 8, 29];
+      var newData = [15, 9, 27];
+
+      var drawCircles = function(dataArray) {
+
+        var svg = d3.select("#viz");
+
+        var dots = svg.selectAll(".dot")
+          .data(dataArray);
+
+        dots.enter().append("circle")
+          .attr("class", "dot")
+          .attr("r", 0)
+          .attr("fill", "black")
+          .attr("cx", function(dataPoint, index) {
+            return 25 + (index * 50);
+          })
+          .attr("cy", 25)
+          .transition()
+          .duration(1000)
+          .attr("r", function(dataPoint){
+            return dataPoint / 2;
+          });
+
+          //update circles
+        dots
+        .transition()
+        .duration(1000)
+        .attr("r", function(dataPoint){
+          return dataPoint / 2;
+          })
+        .attr("fill", "green");
+
+        dots.exit()
+        .transition()
+        .duration(1000)
+        .attr("r", 0)
+        .remove();
+
+      };
+
+      drawCircles(myData);
+
+      </script>
+
+      </html>
