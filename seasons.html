@@ -8,7 +8,9 @@
   <body id="myBody">
       <svg id="viz"></svg>
   </body>
+
     <script src="https://d3js.org/d3.v4.min.js"></script>
+
     <script>
     var myData = [6, 25, 38, 8, 29];
     var newData = [15, 9, 27];
@@ -33,6 +35,15 @@
           .attr("r", function(dataPoint){
             return dataPoint / 2;
           });
+
+          d3.select("myBody").append("button")
+            .text("change season")
+            .on("click",function(){
+              if (myData==1) {
+                newData=2;
+              } else   {
+                  myData=1;
+              }
 
           //update circles
         dots
