@@ -1,69 +1,71 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Seasons</title>
-  </head>
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8" />
+          <title>Javascript Libraries</title>
+        </head>
 
-  <body id="myBody">
-      <svg id="viz"></svg>
-  </body>
+        <body id="myBody">
+          <svg id="viz"></svg>
+        </body>
+        <script src="numbers.js"></script>
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <script>
+        console.log(squared(22));
 
-    <script src="https://d3js.org/d3.v4.min.js"></script>
+        var body = document.getElementById("myBody");
+        body.style.backgroundColor = "red";
+        body.style.fontFamily = "Comic Sans MS";
+        body.id = "newId";
 
-    <script>
-    var myData = [6, 25, 38, 8, 29];
-    var newData = [15, 9, 27];
+        var body = d3.select("body")
+          .style("background-color", "blue")
+          .style("font-family", "Times New Roman")
+          .attr("id", "myBody");
 
-      var drawCircles = function(dataArray) {
+        var myData = [6, 25, 38, 8, 29];
+        var newData = [15, 9, 27];
 
-        var svg = d3.select("#viz");
+        var drawCircles = function(dataArray) {
 
-        var dots = svg.selectAll(".dot")
-          .data(dataArray);
+          var svg = d3.select("#viz");
 
-        dots.enter().append("circle")
-          .attr("class", "dot")
-          .attr("r", 0)
-          .attr("fill", "black")
-          .attr("cx", function(dataPoint, index) {
-            return 25 + (index * 50);
-          })
-          .attr("cy", 25)
+          var dots = svg.selectAll(".dot")
+            .data(dataArray);
+
+          dots.enter().append("circle")
+            .attr("class", "dot")
+            .attr("r", 0)
+            .attr("fill", "black")
+            .attr("cx", function(dataPoint, index) {
+              return 25 + (index * 50);
+            })
+            .attr("cy", 25)
+            .transition()
+            .duration(1000)
+            .attr("r", function(dataPoint){
+              return dataPoint / 2;
+            });
+
+            //update circles
+          dots
           .transition()
           .duration(1000)
           .attr("r", function(dataPoint){
             return dataPoint / 2;
-          });
+            })
+          .attr("fill", "green");
 
-          d3.select("myBody").append("button")
-            .text("change season")
-            .on("click",function(){
-              if (myData==1) {
-                newData=2;
-              } else   {
-                  myData=1;
-              }
+          dots.exit()
+          .transition()
+          .duration(1000)
+          .attr("r", 0)
+          .remove();
 
-          //update circles
-        dots
-        .transition()
-        .duration(1000)
-        .attr("r", function(dataPoint){
-          return dataPoint / 2;
-          })
-        .attr("fill", "green");
+        };
 
-        dots.exit()
-        .transition()
-        .duration(1000)
-        .attr("r", 0)
-        .remove();
+        drawCircles(myData);
 
-      };
+        </script>
 
-      drawCircles(myData);
-
-      </script>
-
-      </html>
+        </html>
