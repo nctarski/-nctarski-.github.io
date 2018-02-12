@@ -13,27 +13,39 @@
     </style>
 
 </head>
-<body>
+<body id= "body">
+  <div id="option">
+    <input name="updateButton"
+                 type="button"
+                value="In Color"
+                onclick="drawCircles(dataArray2)" />
+  </div>
+  <svg id = "svg"></svg>
+</body>
   <script src="https://d3js.org/d3.v4.min.js"></script>
   <script>
-    var width = 800;
-    var height = 600;
 
     var body = d3.select("body")
-      .style("background-color", "blue")
+      .style("background-color", "lightgrey")
       .style("font-family", "Times New Roman")
-      .attr("id", "myBody");
+      .attr("id", "body");
 
-    var firstData = [30, 35, 7, 11, 38, 20, 17, 27, 18];
-    var secondData = [27, 40, 11];
+    var dataArray1 = [9, 15, 7, 11, 18];
+    var dataArray2 = [20, 10, 20];
+
+
+    // function updateData() {
+    //   console.log("updating data");
+    //   debugger;
+    //   d3.select("body")
+    //     .selectAll("circle")
+    //     .data(dataArray2)
+    //     .enter()
+    //     .append("circle")
+    //     .exit("circle");
+    // }
 
 var drawCircles = function(dataArray) {
-
-    //create SVG canvas
-    var svg = d3.select("body")
-                .append("SVG")
-                .attr("width", width)
-                .attr("height", height);
 
     var circles = d3.select("svg")
         .selectAll("circle")
@@ -42,32 +54,31 @@ var drawCircles = function(dataArray) {
     //enter circles
     circles.enter()
       .append("circle")
-      .attr("cx", function(d){
-          return d;
+      .attr("cx", function(dataPoint, index) {
+        return 25 + (index * 60);
       })
+      .attr("cy", 100)
       .attr("r", function (d){
           return d;
       })
-      .style("fill", "green");
+      .style("fill","4C4C4C")
 
     //update circles
     circles
-      .attr("cx", function (d) {
-        return d;
-      })
-      .attr("cy", function (d) {
-        return d;
-      })
-      .attr("r", function (d) {
-        return d;
-      })
+      .transition().duration(3000)
+      .style("fill","B1FCCF");
+
 
     //exit circles
-    circles.exit().remove();
+    circles.exit()
+    .transition()
+    .duration(3000)
+    .attr("r", 0)
+    remove();
 
-  };
+  }
 
-  drawCircles(firstData);
-
+  drawCircles(dataArray1);
+</script>
 </body>
 </html>
