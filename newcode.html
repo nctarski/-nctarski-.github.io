@@ -15,7 +15,7 @@
     var width = 800;
     var height = 600;
 
-    var dataSpring = [300, 350, 70];
+    var firstData = [300, 350, 70];
 
     //create SVG canvas
     var svg = d3.select("body")
@@ -25,7 +25,7 @@
 
     var circles = d3.select("svg")
         .selectAll("circle")
-        .data(dataSpring);
+        .data(firstData);
 
     //enter leaves
     circles.enter()
@@ -36,19 +36,6 @@
       .attr("cy", function(d) {return d.y})
       .attr("r", function(r) {return d.r})
       ;
-
-      //button to switch datasets
-      d3.select("body").append("button")
-        .text(" Change Season")
-        .on("click", function(){
-          //select new data
-          if (dataIndex==1) {
-              dataInex=2;
-          } else {
-              dataIndex=1;
-          }
-
-          //remove circles
 
         })
 
