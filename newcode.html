@@ -15,14 +15,24 @@
   </div>
 
   <script>
-    var width = 500;
-    var height = 500;
+    var springData = [300, 350, 70];
+
+    var width = 800;
+    var height = 600;
 
     //create SVG canvas
     var svg = d3.select("body")
                 .append("SVG")
                 .attr("width", width)
                 .attr("height", height);
+
+    //enter leaves
+    svg.selectAll("circle")
+      .data(data)
+      .enter().append("circle")
+      .attr("cx", function(d) {return d.x})
+      .attr("cy", function(d) {return d.y})
+      .attr("r", function(r) {return d.r});
 
 </body>
 </html>
