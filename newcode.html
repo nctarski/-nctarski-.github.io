@@ -10,13 +10,6 @@
 </head>
 <body>
 
-  <div id="changeSeason">
-    <input name="updateButton"
-                type="button"
-                value="Change Season"
-                onclick="updateData()" />
-  </div>
-
   <script>
 
     var width = 800;
@@ -31,7 +24,7 @@
                 .attr("height", height);
 
     var circles = d3.select("svg")
-        .selectAll("cirlce")
+        .selectAll("circle")
         .data(dataSpring);
 
     //enter leaves
@@ -43,6 +36,21 @@
       .attr("cy", function(d) {return d.y})
       .attr("r", function(r) {return d.r})
       ;
+
+      //button to switch datasets
+      d3.select("body").append("button")
+        .text(" Change Season")
+        .on("click", function(){
+          //select new data
+          if (dataIndex==1) {
+              dataInex=2;
+          } else {
+              dataIndex=1;
+          }
+
+          //remove circles
+
+        })
 
 </body>
 </html>
