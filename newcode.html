@@ -31,7 +31,7 @@ var drawCircles = function(dataArray) {
 
     var circles = d3.select("svg")
         .selectAll("circle")
-        .data(firstData);
+        .data(dataArray);
 
     //enter circles
     circles.enter()
