@@ -12,6 +12,12 @@
 
   <script>
 
+  var testObject = {
+    "country": "usa",
+    "value": 10
+  };
+  console.log(testObject.country)
+
   d3.json("dataObject.json", function(error, data) {
     if (error) {
       console.log("Error!");
@@ -45,7 +51,7 @@
       }
     });
 
-
+    var url = "https://api.datausa.io/api/?required=income&show=geo&sumlevel"
 
   </script>
 
