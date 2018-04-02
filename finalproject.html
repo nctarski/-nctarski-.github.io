@@ -37,16 +37,17 @@
 
   <script>
 
-    var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+  d3.csv("totalProduction.csv", function(data) {
+      console.log(data);
+  });
 
-    d3.queue()
-    .defer(d3.csv, "domesticConsumption.csv")
-    .defer(d3.csv, "exports.csv")
-    .defer(d3.csv, "totalProduction.csv")
-    .awaitAll(function(error, dataArray) {
-      var data = dataArray[0];
-      var csvData = dataArray[1];
-      var textData = dataArray[2];
-      console.log(dataArray);
+  d3.csv("exports.csv", function(data) {
+      console.log(data);
+  });
+
+  d3.csv("domesticConsumption.csv", function(data) {
+      console.log(data);
+  });
+
+  </script>
+  </html>
