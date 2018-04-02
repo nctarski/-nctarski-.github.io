@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8" />
@@ -50,4 +50,79 @@
   });
 
   </script>
+  </html> -->
+
+  <!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="UTF-8">
+      <title> Final Project </title>
+      <style>
+      </style>
+
+  </head>
+  <body id= "body">
+
+    <svg id = "svg"></svg>
+
+  </body>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script>
+
+      var body = d3.select("body")
+        .style("background-color", "lightgrey")
+        .style("font-family", "Times New Roman")
+        .attr("id", "body");
+
+      // var stringTonumber = function(d) {
+      //   return {
+      //     Country: d.Country
+      //     1990: parseFloat (d.1990)
+      //   }
+      // }
+
+      d3.csv("domesticConsumption.csv", function(data) {
+        // data.forEach(function(d) {
+        //
+        // });
+        console.log(data);
+      });
+
+
+      var drawCircles = function(dataArray) {
+
+      var circles = d3.select("svg")
+          .selectAll("circle")
+          .data(dataArray);
+
+      //enter circles
+      circles.enter()
+        .append("circle")
+        .attr("cx", function(dataPoint, index) {
+          return 25 + (index * 60);
+        })
+        .attr("cy", 100)
+        .attr("r", function (d){
+            return d;
+        })
+        .attr("fill","#4C4C4C")
+
+      //update circles
+      circles
+        .transition().duration(3000)
+        .attr("fill","#B1FCCF");
+
+
+      //exit circles
+      circles.exit()
+      .transition()
+      .duration(3000)
+      .attr("r", 0)
+      remove();
+
+    }
+
+    drawCircles(dataArray1);
+  </script>
+  </body>
   </html>
