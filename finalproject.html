@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Final Project</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <style>
+      body {
+        font: 11px sans-serif;
+      }
+
+      .axis path,
+      .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+      }
+
+      .dot {
+        stroke: #000;
+      }
+
+      .tooltip {
+        position: absolute;
+        width: 200px;
+        height: 28px;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <svg id="scatterPlot" width=600 height=400>
+      <rect width=600 height=400>
+    </svg>
+  </body>
+
+  <script>
+
+    var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+    d3.queue()
+    .defer(d3.csv, "domesticConsumption.csv")
+    .defer(d3.csv, "exports.csv")
+    .defer(d3.csv, "totalProduction.csv")
+    .awaitAll(function(error, dataArray) {
+      var data = dataArray[0];
+      var csvData = dataArray[1];
+      var textData = dataArray[2];
+      console.log(dataArray);
