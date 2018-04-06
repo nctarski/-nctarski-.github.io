@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="UTF-8">
+      <title>Final Project</title>
+      <script src="https://d3js.org/d3.v4.min.js"></script>
+
+      <style>
+      </style>
+  </head>
+
+  <body id= "body">
+
+    <svg id = "svg"></svg>
+
+
+  <script>
+
+
+
+    var drawCircles;
+
+      var body = d3.select("body")
+        .style("background-color", "lightgrey")
+        .style("font-family", "Times New Roman")
+        .attr("id", "body");
+
+        var svg = d3.select("svg")
+          .attr("width", window.innerWidth)
+          .attr("height", window.innerHeight);
+
+
+        //load CSV files
+        d3.queue()
+          .defer(d3.csv,"domesticConsumption.csv")
+          .defer(d3.csv,"totalProduction.csv")
+          .defer(d3.csv,"exports.csv")
+          .awaitAll(function(error, dataArray) {
+            console.log(dataArray);
+            var domesticData = dataArray[0]
+            var productionData = dataArray[1]
+            var exportData = dataArray[2]
+
+            //name all of the years columns
+            var years = d3.range(1990, 2016, 1);
+            //select the max value in all consumption data
+            var domesticMax = d3.max(domesticData, function(d) {
+              return d3.max(years.map(function(y) {
+                return parseInt(d[y].replace(",", ""));
+              }));
+            });
+            //select the max value in all production data
+            var productionMax = d3.max(productionData, function(d) {
+              return d3.max(years.map(function(y) {
+                return parseInt(d[y].replace(",", ""));
+              }));
+            });
+            //set x-axis parameters
+            var xScale = d3.scaleLinear()
+              .domain([0, domesticMax])
+              .range([0, window.innerWidth]);
+            //set y-axis parameters
+            var yScale = d3.scaleLinear()
+              .domain([0, productionMax])
+              .range([0, window.innerHeight]);
+
+
+
+            drawCircles = function(year) {
+
+
+              var dataArray = [];
+              domesticData.forEach(function(dom) {
+
+                var obj = {};
+
+                obj.country = dom.Country;
+                obj.domestic = parseInt(dom[year].replace(",", ""));
+
+                var prod = productionData.filter(function(p) {
+                  return p.Country == obj.country;
+                });
+                obj.production = parseInt(prod[0][year].replace(",", ""));
+                var exp = exportData.filter(function(p) {
+                  return p.Country == obj.country;
+                });
+                obj.export = parseInt(exp[0][year].replace(",", ""));
+                dataArray.push(obj);
+              });
+              console.log(dataArray);
+
+              var circles = svg
+                  .selectAll("circle")
+                  .data(dataArray);
+
+
+
+              //enter circles
+              var circleEnter = circles.enter()
+                .append("circle")
+                .attr("cx", 0)
+                .attr("cy", function(dataPoint, index) {
+                  return 50;
+                })
+                .attr("r", function (d){
+                    return 10;
+                })
+                .attr("fill","#4C4C4C")
+
+              //update circles
+              circles.merge(circleEnter)
+                .transition().duration(3000)
+                .attr("cx", function(dataPoint, index) {
+                  return xScale(dataPoint.domestic);
+                })
+                .attr("cy", function(dataPoint, index) {
+                  //make yScale
+                  return yScale(dataPoint.production);
+                })
+                .attr("r", function(dataPoint, index) {
+                  return 5;//make something for radius
+                })
+                .attr("fill","#B1FCCF");
+
+
+              //exit circles
+              circles.exit()
+                .transition()
+                .duration(3000)
+                .attr("r", 0)
+                .remove();
+
+            }
+
+            drawCircles("2016");
+
+          });
+  </script>
+  </body>
+  </html>
