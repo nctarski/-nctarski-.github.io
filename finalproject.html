@@ -7,19 +7,24 @@
 
       <style>
 
+      #svg {margin-left:auto; margin-right:auto; display:block;}
+      #yearSlider {margin-left:auto; margin-right:auto; display:block;}
 
       </style>
   </head>
 
   <body id= "body">
 
-    <svg id = "svg"></svg>
+    <svg id = "svg" align = "center"></svg>
 
+    <div class="slidecontainer">
+      <input type="range" min="1" max="100" value="50" class="slider" id="yearSlider">
+    </div>
 
   <script>
 
-    var width = 600
-    var height = 400
+    var width = 800
+    var height = 600
     var padding = 50
 
     var drawCircles;
@@ -166,6 +171,16 @@
             }
 
             drawCircles("2016");
+
+            var slider = document.getElementById("yearSlider");
+            var output = document.getElementById("demo");
+            output.innerHTML = slider.value;
+
+
+            slider.oninput = function() {
+              output.innerHTML = this.value
+              drawCircles(this.value);
+            }
 
           });
   </script>
