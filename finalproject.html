@@ -18,14 +18,15 @@
     <svg id = "svg" align = "center"></svg>
 
     <div class="slidecontainer">
-      <input type="range" min="1" max="100" value="50" class="slider" id="yearSlider">
+      <div id="yearOutput"></div>
+      <input type="range" min="1990" max="2016" value="2016" class="slider" id="yearSlider">
     </div>
 
   <script>
 
     var width = 800
     var height = 600
-    var padding = 50
+    var padding = 100
 
     var drawCircles;
 
@@ -51,7 +52,7 @@
             var productionData = dataArray[1]
             var exportData = dataArray[2]
 
-            //name all of the years columns
+            //name all of the years in the column
             var years = d3.range(1990, 2016, 1);
             //select the max value in all consumption data
             var domesticMax = d3.max(domesticData, function(d) {
@@ -88,10 +89,12 @@
               .range([5,30])
 
               var xAxis = d3.axisBottom()
-                .scale(xScale);
+                .scale(xScale)
+                .ticks(10, ",d");
 
               var yAxis = d3.axisLeft()
-                .scale(yScale);
+                .scale(yScale)
+                .ticks(10, ",d");
 
                 svg.append("g")
                 .attr("transform", "translate("+(padding - 10)+", 0)")
@@ -141,13 +144,18 @@
                   return 50;
                 })
                 .attr("r", function (d){
-                    return 10;
+                    return 0;
                 })
                 .attr("fill","#4C4C4C")
 
               //update circles
               circles.merge(circleEnter)
-                .transition().duration(3000)
+                .on("mousemove", function(dataPoint) {
+                  var countryName = dataPoint.country;
+                  var mouseX = d3.event.pageX;
+                  console.log(countryName, mouseX);
+                })
+                .transition().duration(1500)
                 .attr("cx", function(dataPoint, index) {
                   return xScale(dataPoint.domestic || 1);
                 })
@@ -173,12 +181,12 @@
             drawCircles("2016");
 
             var slider = document.getElementById("yearSlider");
-            var output = document.getElementById("demo");
+            var output = document.getElementById("yearOutput");
             output.innerHTML = slider.value;
 
 
             slider.oninput = function() {
-              output.innerHTML = this.value
+              output.innerHTML = this.value;
               drawCircles(this.value);
             }
 
