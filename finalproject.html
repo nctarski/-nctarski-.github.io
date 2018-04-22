@@ -2,30 +2,130 @@
 <html>
   <head>
       <meta charset="UTF-8">
-      <title>Final Project</title>
+      <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville|Proza+Libre|Trirong|Work+Sans" rel="stylesheet">
+      <title>The Global Coffee Trade</title>
+
       <script src="https://d3js.org/d3.v4.min.js"></script>
 
       <style>
 
-      #svg {margin-left:auto; margin-right:auto; display:block;}
-      #yearSlider {margin-left:auto; margin-right:auto; display:block;}
+      h1 {
+          color: black;
+          font-family: 'Work Sans', sans-serif;
+          font-size: 300%;
+          letter-spacing: 3px;
+          }
+
+      #svg {margin-left:700; margin-right:70;}
+      #yearSlider {margin-left:auto; margin-right:auto; display:block; float:left;}
+
+      .header {
+          background-color: #C0C0C0;
+          color: white;
+          text-align: center;
+          padding: 5px;
+      }
+
+      .axis path {
+        fill: none;
+        stroke: #000;
+        stroke-width: 1.5px;
+        shape-rendering: crispEdges;
+      }
+      .axis line {
+        fill: none;
+        stroke: #383838;
+        stroke-width: 1px;
+        shape-rendering: crispEdges;
+      }
+
+      .axis text {
+        font-family: 'Trirong', serif;
+        font-size: 12px;
+        fill: #383838;
+      }
+
+      .axis .minor line {
+        stroke: #383838;
+        stroke-width: 1px;
+        stroke-dasharray: 6,4;
+      }
+
+      .slidecontainer {
+        text-align: center;
+        font-family: 'Trirong', serif;
+      }
+
+      .slider {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 10px;
+        border-radius: 5px;
+        background: dimgrey;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+    }
+
+    .slider:hover {
+        opacity: 1;
+    }
+
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: #cb5c42;
+        cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: #cb5c42;
+        cursor: pointer;
+    }
+
+    /* div.tooltip {
+      position: absolute;
+      text-align: center;
+      width: 60px;
+      height: 28px;
+      padding: 2px;
+      font: 12px sans-serif;
+      background: lightsteelblue;
+      border: 0px;
+      border-radius: 8px;
+      pointer-events: none;
+    } */
 
       </style>
   </head>
 
   <body id= "body">
 
+    <div class = "header">
+    <h1 align = "margin-left" >The Global Coffee Trade</h1>
+    </div>
     <svg id = "svg" align = "center"></svg>
-
-    <div class="slidecontainer">
-      <div id="yearOutput"></div>
+    <div class= "slidecontainer">
+      <div id= "yearOutput"></div>
+      <div id="tooltip"></div>
       <input type="range" min="1990" max="2016" value="2016" class="slider" id="yearSlider">
     </div>
 
   <script>
 
+    var margin = {top: 50, right: 50, bottom: 50, left: 50};
+
     var width = 800
-    var height = 600
+    var height = 550
+
     var padding = 100
 
     var drawCircles;
@@ -38,8 +138,6 @@
         var svg = d3.select("svg")
           .attr("width", width)
           .attr("height", height);
-
-
 
         //load CSV files
         d3.queue()
@@ -97,12 +195,30 @@
                 .ticks(10, ",d");
 
                 svg.append("g")
-                .attr("transform", "translate("+(padding - 10)+", 0)")
-                .call(yAxis);
+                  .attr("class", "axis")
+                  .attr("transform", "translate("+(padding - 10)+", 0)")
+                  .call(yAxis)
+                  .append("text")
+                    .attr("class", "label")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", -80)
+                    .attr("x", -300)
+                    .style("text-anchor", "middle")
+                    .text("Production (in thousand 60kg bags)");
 
                 svg.append("g")
-                .attr("transform", "translate(0, "+(height - padding + 10)+")")
-                .call(xAxis);
+                  .attr("class", "axis")
+                  .attr("transform", "translate(0, "+(height - padding + 10)+")")
+                  .call(xAxis)
+                  .append("text")
+                    .attr("class", "label")
+                    .attr("x", (width-380))
+                    .attr("y", 50)
+                    .style("text-anchor", "middle")
+                    .text("Domestic Consumption (in thousand 60kg bags)");
+
+
+
 
             drawCircles = function(year) {
 
@@ -127,14 +243,47 @@
               });
               console.log(dataArray);
 
+              var countryName = dataPoint.country;
 
+              var dataExtent = d3.extent(countryName, function(d) {
+                return d.ranking;
+              });
 
+              var colorScale = d3.scaleLinear()
+                .domain(dataExtent)
+                .range(["#9e9641", "#00004d",
+                        "#7f9f30", "#6d1e7c",
+                        "#3f801a", "#975abb",
+                        "#42a764", "#c166c3",
+                        "#005c17", "#c14795",
+                        "#006438", "#a50a48",
+                        "#019a82", "#ec5e6d",
+                        "#007555", "#cd75c2",
+                        "#284b00", "#5d79e0",
+                        "#b57915", "#087de2",
+                        "#ac5c0e", "#00337e",
+                        "#e37446", "#00407f",
+                        "#536400", "#ab82d8",
+                        "#655300", "#7e8fe2",
+                        "#3b4100", "#6996d3",
+                        "#690007", "#007482",
+                        "#dc795b", "#015e92",
+                        "#583500", "#57004d",
+                        "#6da075", "#350032",
+                        "#8f9a59", "#5e0035",
+                        "#789c89", "#60001b",
+                        "#7599b0", "#2b0015",
+                        "#e56c95", "#003a24",
+                        "#d67980", "#000a19",
+                        "#a4917a", "#0c0d00",
+                        "#a08eaa", "#200800",
+                        "#b38994", "#002026",
+                        "#412c00", "#003c3e",
+                        "#241e00"]);
 
               var circles = svg
                   .selectAll("circle")
                   .data(dataArray);
-
-
 
               //enter circles
               var circleEnter = circles.enter()
@@ -146,28 +295,45 @@
                 .attr("r", function (d){
                     return 0;
                 })
-                .attr("fill","#4C4C4C")
+                .attr("fill", function(d) {
+                  var countryData = dataPoint.country.filter(function(x) {
+                    return x.country == countryName;
+                  });
+                  return colorScale(countryData[0].ranking);
+                })
+                .attr('stroke', 'black')
+                .attr('stroke-width', 0.75);
+
 
               //update circles
               circles.merge(circleEnter)
-                .on("mousemove", function(dataPoint) {
-                  var countryName = dataPoint.country;
-                  var mouseX = d3.event.pageX;
-                  console.log(countryName, mouseX);
-                })
-                .transition().duration(1500)
                 .attr("cx", function(dataPoint, index) {
                   return xScale(dataPoint.domestic || 1);
                 })
-                .attr("cy", function(dataPoint, index) {
+                .attr("cy", function(dataPoint) {
                   //make yScale
                   return yScale(dataPoint.production || 1);
                 })
-                .attr("r", function(dataPoint, index) {
+                .attr("r", function(dataPoint) {
                   return rScale(dataPoint.export);
                 })
-                .attr("fill","#B1FCCF");
+                // .attr("fill",function(dataPoint){
+                //   return "#cb5c42";
+                //   return d3.interpolateRainbow(dataPoint.country);
+                // })
+                .on("mousemove", function(dataPoint) {
 
+                  var mouseX = d3.event.pageX;
+                  var mouseY = d3.event.pageY;
+                  return(countryName, mouseX, mouseY);
+                  .transition().duration(200)
+                  .style("opacity", .9)
+                })
+                .on("mouseleave", function(d) {
+                  d3.select("#tooltip")
+                    .style("display", "none");
+                })
+                .transition().duration(1500)
 
               //exit circles
               circles.exit()
