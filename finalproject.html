@@ -17,7 +17,9 @@
           }
 
       #svg {margin-left:700; margin-right:70;}
+      #pageText {float:left;}
       #yearSlider {margin-left:auto; margin-right:auto; display:block; float:left;}
+
 
       .header {
           background-color: #C0C0C0;
@@ -91,7 +93,7 @@
         cursor: pointer;
     }
 
-    /* div.tooltip {
+    div.tooltip {
       position: absolute;
       text-align: center;
       width: 60px;
@@ -102,7 +104,7 @@
       border: 0px;
       border-radius: 8px;
       pointer-events: none;
-    } */
+    }
 
       </style>
   </head>
@@ -110,13 +112,25 @@
   <body id= "body">
 
     <div class = "header">
-    <h1 align = "margin-left" >The Global Coffee Trade</h1>
+      <h1 align = "margin-left" >The Global Coffee Trade</h1>
     </div>
+
     <svg id = "svg" align = "center"></svg>
+
     <div class= "slidecontainer">
       <div id= "yearOutput"></div>
       <div id="tooltip"></div>
       <input type="range" min="1990" max="2016" value="2016" class="slider" id="yearSlider">
+    </div>
+
+    <div id= "pageText" style="background-color:#F5F5F5">
+      <h3>About this Visualization</h3>
+      <p>This visualization describes the global coffee trade from 1990 - 2016
+        in terms of coffee-producing countries. Each circle represents a coffee producer,
+        and the circles' radii are a function of each country’s coffee exports in thousand
+        60kg bags. Domestic consumption and production are mapped onto the x and y axes, respectively.</p>
+      <p> Created by: Natalie Tarski</p>
+      <p>Data source: International Coffee Organization </p>
     </div>
 
   <script>
@@ -138,6 +152,7 @@
         var svg = d3.select("svg")
           .attr("width", width)
           .attr("height", height);
+
 
         //load CSV files
         d3.queue()
@@ -243,43 +258,11 @@
               });
               console.log(dataArray);
 
-              var countryName = dataPoint.country;
-
-              var dataExtent = d3.extent(countryName, function(d) {
-                return d.ranking;
-              });
-
-              var colorScale = d3.scaleLinear()
-                .domain(dataExtent)
-                .range(["#9e9641", "#00004d",
-                        "#7f9f30", "#6d1e7c",
-                        "#3f801a", "#975abb",
-                        "#42a764", "#c166c3",
-                        "#005c17", "#c14795",
-                        "#006438", "#a50a48",
-                        "#019a82", "#ec5e6d",
-                        "#007555", "#cd75c2",
-                        "#284b00", "#5d79e0",
-                        "#b57915", "#087de2",
-                        "#ac5c0e", "#00337e",
-                        "#e37446", "#00407f",
-                        "#536400", "#ab82d8",
-                        "#655300", "#7e8fe2",
-                        "#3b4100", "#6996d3",
-                        "#690007", "#007482",
-                        "#dc795b", "#015e92",
-                        "#583500", "#57004d",
-                        "#6da075", "#350032",
-                        "#8f9a59", "#5e0035",
-                        "#789c89", "#60001b",
-                        "#7599b0", "#2b0015",
-                        "#e56c95", "#003a24",
-                        "#d67980", "#000a19",
-                        "#a4917a", "#0c0d00",
-                        "#a08eaa", "#200800",
-                        "#b38994", "#002026",
-                        "#412c00", "#003c3e",
-                        "#241e00"]);
+              var northAmerica = ["Panama", "Jamaica", "Honduras", "Guatemala", "El Salvador", "Cuba", "Dominican Republic", "Haiti", "Mexico", "Costa Rica"];
+              var southAmerica = ["Venezuela", "Trinidad & Tobago", "Guyana", "Bolivia", "Brazil", "Ecuador", "Paraguay", "Peru", "Colombia", "Democratic Republic of Congo"];
+              var asia = ["Yemen", "Thailand", "Sri Lanka", "Nepal", "Lao", "India", "Indonesia", "Timor-Leste", "Philippines", "Vietnam"];
+              var australia = ["Papua New Guinea"];
+              var africa = ["Uganda", "Togo", "Sierra Leone", "Nigeria", "Nicaragua", "Liberia", "Kenya", "Guinea", "Ghana", "Gabon", "Ethiopia", "Equatorial Guinea", "Côte d'Ivoire", "Angola", "Burundi", "Madagascar", "Malawi", "Rwanda", "Zimbabwe", "Republic of Congo", "Tanzania", "Zambia", "Benin", "Cameroon", "Central African Republic"];
 
               var circles = svg
                   .selectAll("circle")
@@ -295,18 +278,31 @@
                 .attr("r", function (d){
                     return 0;
                 })
-                .attr("fill", function(d) {
-                  var countryData = dataPoint.country.filter(function(x) {
-                    return x.country == countryName;
-                  });
-                  return colorScale(countryData[0].ranking);
-                })
                 .attr('stroke', 'black')
-                .attr('stroke-width', 0.75);
+                .attr('stroke-width', 0.75)
+                .style("fill", function(d) {
+                  if (northAmerica.indexOf(dataPoint.country) >= 0) {
+                    return "red";
+                  }
+                  else if (asia.indexOf(dataPoint.country) >= 0) {
+                    return "blue";
+                  }
+                  else if (africa.indexOf(dataPoint.country) >= 0) {
+                    return "orange";
+                  }
+                  else if (australia.indexOf(dataPoint.country) >= 0) {
+                    return "pink";
+                  }
+                  else if (southAmerica.indexOf(dataPoint.country) >= 0) {
+                    return "yellow";
+                  }
+                ;})
+
 
 
               //update circles
               circles.merge(circleEnter)
+                .transition().duration(1500)
                 .attr("cx", function(dataPoint, index) {
                   return xScale(dataPoint.domestic || 1);
                 })
@@ -317,23 +313,26 @@
                 .attr("r", function(dataPoint) {
                   return rScale(dataPoint.export);
                 })
-                // .attr("fill",function(dataPoint){
-                //   return "#cb5c42";
-                //   return d3.interpolateRainbow(dataPoint.country);
-                // })
+                .attr("fill",function(dataPoint){
+                  return "#cb5c42";
+                })
                 .on("mousemove", function(dataPoint) {
-
+                  var countryName = dataPoint.country;
                   var mouseX = d3.event.pageX;
                   var mouseY = d3.event.pageY;
-                  return(countryName, mouseX, mouseY);
-                  .transition().duration(200)
-                  .style("opacity", .9)
-                })
-                .on("mouseleave", function(d) {
                   d3.select("#tooltip")
-                    .style("display", "none");
-                })
-                .transition().duration(1500)
+                  .style("left", mouseX + "px")
+                  .style("top", mouseX + "px")
+                  .style("display", "block")
+                  .html(dataPoint.country);
+                  .style("opacity", .9)
+                  })
+                  .transition().duration(200)
+                .on("mouseout", function(d) {
+                  div.transition()
+                    .duration(500)
+                    .style("opacity", 0)
+                  });
 
               //exit circles
               circles.exit()
