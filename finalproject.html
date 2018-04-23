@@ -107,6 +107,10 @@
       pointer-events: none;
     }
 
+    .container {
+      float: left;
+    }
+
       </style>
   </head>
 
@@ -116,7 +120,7 @@
       <h1 align = "margin-left" >The Global Coffee Trade</h1>
     </div>
 
-    <svg id = "svg" align = "center"></svg>
+    <svg class = "container" id = "svg" align = "center"></svg>
 
     <div class= "slidecontainer">
       <div id= "yearOutput"></div>
@@ -124,7 +128,7 @@
       <input type="range" min="1990" max="2016" value="2016" class="slider" id="yearSlider">
     </div>
 
-    <div id= "pageText" style="background-color:#F5F5F5">
+    <div class= "container" id= "pageText" style="background-color:#F5F5F5">
       <h3>About this Visualization</h3>
       <p>This visualization describes the global coffee trade from 1990 - 2016
         in terms of coffee-producing countries. Each circle represents a coffee producer,
