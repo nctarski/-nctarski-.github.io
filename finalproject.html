@@ -16,7 +16,7 @@
           letter-spacing: 3px;
           }
 
-      #svg {margin-left:700; margin-right:70;}
+      #svg {margin-left:700; margin-right:70; float:left;}
       #pageText {float:left;}
       #yearSlider {margin-left:auto; margin-right:auto; display:block; float:left;}
 
@@ -93,8 +93,9 @@
         cursor: pointer;
     }
 
-    div.tooltip {
-      position: absolute;
+    .tooltip {
+      position: relative;
+      display: inline-block;
       text-align: center;
       width: 60px;
       height: 28px;
@@ -282,19 +283,19 @@
                 .attr('stroke-width', 0.75)
                 .style("fill", function(dataPoint) {
                   if (northAmerica.indexOf(dataPoint.country) >= 0) {
-                    return "red";
+                    return "#baa000";
                   }
                   else if (asia.indexOf(dataPoint.country) >= 0) {
-                    return "blue";
+                    return "#01b48a";
                   }
                   else if (africa.indexOf(dataPoint.country) >= 0) {
-                    return "orange";
+                    return "#b24d49";
                   }
                   else if (australia.indexOf(dataPoint.country) >= 0) {
-                    return "pink";
+                    return "#73868d";
                   }
                   else if (southAmerica.indexOf(dataPoint.country) >= 0) {
-                    return "yellow";
+                    return "#d19cee";
                   }
                 ;})
 
@@ -302,17 +303,6 @@
 
               //update circles
               circles.merge(circleEnter)
-                .transition().duration(1500)
-                .attr("cx", function(dataPoint, index) {
-                  return xScale(dataPoint.domestic || 1);
-                })
-                .attr("cy", function(dataPoint) {
-                  //make yScale
-                  return yScale(dataPoint.production || 1);
-                })
-                .attr("r", function(dataPoint) {
-                  return rScale(dataPoint.export);
-                })
                 .on("mousemove", function(dataPoint) {
                   var countryName = dataPoint.country;
                   var mouseX = d3.event.pageX;
@@ -328,6 +318,10 @@
                   d3.select("#tooltip")
                   .style("display", "none");
                 })
+                .transition().duration(1500)
+                .attr("cx", function(dataPoint, index) {
+                  return xScale(dataPoint.domestic || 1);
+                })
                 .attr("cy", function(dataPoint) {
                   //make yScale
                   return yScale(dataPoint.production || 1);
@@ -335,10 +329,10 @@
                 .attr("r", function(dataPoint) {
                   return rScale(dataPoint.export);
                 })
-                  div.transition()
-                    .duration(500)
-                    .style("opacity", 0)
-                  ;
+                  // div.transition()
+                  //   .duration(500)
+                  //   .style("opacity", 0)
+                  // ;
 
               //exit circles
               circles.exit()
