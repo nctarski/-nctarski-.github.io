@@ -54,8 +54,9 @@
       }
 
       .slidecontainer {
-        text-align: center;
+        text-align: left;
         font-family: 'Trirong', serif;
+        font-size: 30px;
       }
 
       .slider {
@@ -69,6 +70,8 @@
         opacity: 0.7;
         -webkit-transition: .2s;
         transition: opacity .2s;
+        margin-bottom: 8px;
+
     }
 
     .slider:hover {
@@ -109,6 +112,15 @@
 
     .container {
       float: left;
+      font-family: 'Trirong', serif;
+    }
+
+
+    .intro {
+        float: left;
+        font-family: 'Trirong', serif;
+        background-color: #F5F5F5;
+
     }
 
       </style>
@@ -122,20 +134,24 @@
 
     <svg class = "container" id = "svg" align = "center"></svg>
 
+
     <div class= "slidecontainer">
       <div id= "yearOutput"></div>
       <div id="tooltip"></div>
       <input type="range" min="1990" max="2016" value="2016" class="slider" id="yearSlider">
     </div>
 
-    <div class= "container" id= "pageText" style="background-color:#F5F5F5">
+    <div class= "intro" id= "pageText">
       <h3>About this Visualization</h3>
       <p>This visualization describes the global coffee trade from 1990 - 2016
         in terms of coffee-producing countries. Each circle represents a coffee producer,
         and the circles' radii are a function of each country’s coffee exports in thousand
-        60kg bags. Domestic consumption and production are mapped onto the x and y axes, respectively.</p>
-      <p> Created by: Natalie Tarski</p>
-      <p>Data source: International Coffee Organization </p>
+        60kg bags. Domestic consumption and production are mapped onto the x and y axes, respectively.
+        The colors of the circles represent the continents on which each country is located. Purple
+        represents South America, green represents Asia, gold represents North America, orange represents
+        Africa, and gray represents Australia.</p>
+      <p><h6> Created by: Natalie Tarski</p>
+      <p>Data source: International Coffee Organization</h6> </p>
     </div>
 
   <script>
