@@ -280,7 +280,7 @@
                 })
                 .attr('stroke', 'black')
                 .attr('stroke-width', 0.75)
-                .style("fill", function(d) {
+                .style("fill", function(dataPoint) {
                   if (northAmerica.indexOf(dataPoint.country) >= 0) {
                     return "red";
                   }
@@ -313,9 +313,6 @@
                 .attr("r", function(dataPoint) {
                   return rScale(dataPoint.export);
                 })
-                .attr("fill",function(dataPoint){
-                  return "#cb5c42";
-                })
                 .on("mousemove", function(dataPoint) {
                   var countryName = dataPoint.country;
                   var mouseX = d3.event.pageX;
@@ -325,14 +322,23 @@
                   .style("top", mouseX + "px")
                   .style("display", "block")
                   .html(dataPoint.country)
-                  .style("opacity", .9)
+                  .style("opacity", .9);
                   })
-                  .transition().duration(200)
                 .on("mouseout", function(d) {
-                  div.transition()
-                    .duration(500)
-                    .style("opacity", 0)
-                  });
+                  d3.select("#tooltip")
+                  .style("display", "none");
+                })
+                .attr("cy", function(dataPoint) {
+                  //make yScale
+                  return yScale(dataPoint.production || 1);
+                })
+                .attr("r", function(dataPoint) {
+                  return rScale(dataPoint.export);
+                })
+                  // div.transition()
+                  //   .duration(500)
+                  //   .style("opacity", 0)
+                  // });
 
               //exit circles
               circles.exit()
