@@ -16,9 +16,16 @@
           letter-spacing: 3px;
           }
 
-      #svg {margin-left:700; margin-right:70; float:left;}
-      #pageText {float:left;}
-      #yearSlider {margin-left:auto; margin-right:auto; display:block; float:left;}
+      #svg {
+        margin-left:700;
+        margin-right:70;
+        display: inline-block;
+      }
+      #pageText {
+        display: inline-block;
+        width: 35%;
+      }
+      #yearSlider {margin-left:auto; margin-right:auto; display:block;}
 
 
       .header {
@@ -96,12 +103,13 @@
         cursor: pointer;
     }
 
-    .tooltip {
-      position: relative;
+    #tooltip {
+      display: none;
+      position: absolute;
       display: inline-block;
       text-align: center;
-      width: 60px;
-      height: 28px;
+      width: 90px;
+      height: 30px;
       padding: 2px;
       font: 12px sans-serif;
       background: lightsteelblue;
@@ -111,16 +119,13 @@
     }
 
     .container {
-      float: left;
       font-family: 'Trirong', serif;
     }
 
 
     .intro {
-        float: left;
-        font-family: 'Trirong', serif;
-        background-color: #F5F5F5;
-
+      font-family: 'Trirong', serif;
+      background-color: #F5F5F5;
     }
 
       </style>
@@ -135,12 +140,6 @@
     <svg class = "container" id = "svg" align = "center"></svg>
 
 
-    <div class= "slidecontainer">
-      <div id= "yearOutput"></div>
-      <div id="tooltip"></div>
-      <input type="range" min="1990" max="2016" value="2016" class="slider" id="yearSlider">
-    </div>
-
     <div class= "intro" id= "pageText">
       <h3>About this Visualization</h3>
       <p>This visualization describes the global coffee trade from 1990 - 2016
@@ -150,9 +149,17 @@
         The colors of the circles represent the continents on which each country is located. Purple
         represents South America, green represents Asia, gold represents North America, orange represents
         Africa, and gray represents Australia.</p>
-      <p><h6> Created by: Natalie Tarski</p>
-      <p>Data source: International Coffee Organization</h6> </p>
+      <p><h6>Created by: Natalie Tarski</h6></p>
+      <p><h6>Data source: International Coffee Organization</h6></p>
     </div>
+
+
+    <div class="slidecontainer">
+      <div id="yearOutput"></div>
+      <input type="range" min="1990" max="2016" value="2016" class="slider" id="yearSlider">
+    </div>
+
+    <div id="tooltip"></div>
 
   <script>
 
@@ -329,7 +336,7 @@
                   var mouseY = d3.event.pageY;
                   d3.select("#tooltip")
                   .style("left", mouseX + "px")
-                  .style("top", mouseX + "px")
+                  .style("top", mouseY + "px")
                   .style("display", "block")
                   .html(dataPoint.country)
                   .style("opacity", .9);
